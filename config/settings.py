@@ -148,16 +148,31 @@ DEFAULT_FROM_EMAIL = f'ReferChain <{env("EMAIL_HOST_USER", default="")}>'
 FRONTEND_URL = env('FRONTEND_URL', default='http://localhost:3000')
 
 # Cache
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': env('REDIS_URL', default='redis://127.0.0.1:6379/1'),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+
+REDIS_URL = env('REDIS_URL', default=None)
+
+if REDIS_URL:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': REDIS_URL,
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
         }
     }
-}
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        }
+    }
+
 CACHE_TTL = 60 * 15
+
+
+
+
 
 # Swagger
 SPECTACULAR_SETTINGS = {
