@@ -207,6 +207,6 @@ if not DEBUG:
 
 
 CORS_ALLOWED_ORIGINS = [
-    'https://referchain-frontend.vercel.app/',
+    'https://referchain-frontend.vercel.app',
 ]
 
